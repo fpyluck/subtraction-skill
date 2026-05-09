@@ -25,6 +25,10 @@ description: 往 skill / AGENTS.md / CLAUDE.md / 系统提示等 instruction-lik
 
 会丢失的事实（路径 / 兼容性 / 安全边界）；反复失败后的针对性修复；用户明确要求。
 
+## 主动修剪
+
+准备往 instruction 文档加内容时，先扫一遍已有条目是否有可合并/删除的。有的话，在本次编辑里顺手处理，使净行数不增加。不要为修剪单独开一轮——等到有其他编辑需求时顺手做。
+
 ## 范围
 
 只管上下文文档（skill / AGENTS.md / CLAUDE.md / 系统提示 / agent memory 等）。测试覆盖、错误处理、依赖管理是别的 skill 的事，本 skill 不吞。
