@@ -1,34 +1,30 @@
 ---
-name: 减法
-description: 往 skill / AGENTS.md / CLAUDE.md / 系统提示等 instruction-like 文档里**加**规则、例外、示例、checklist、反思机制或工作流说明时自动触发。每加一行前过三关硬判断，避免膨胀。基于 ETH Zurich 2026.02 研究：详细 AGENTS.md 降 agent 成功率 3% / 增 20% 成本。
+name: jianfa
+description: 'Jianfa (减法)：Triggers when user writes "减法", "/jianfa", or "jianfa" as a standalone message or invocation, and when adding rules, exceptions, examples, checklists, reflection mechanisms, or workflows to skill / AGENTS.md / CLAUDE.md / system prompt / agent memory style documents. Preserve local semantics that change future behavior; merge or remove duplicate, generic, or model-obvious instructions.'
 ---
 
 # 减法
 
-**目标**：不是不加，而是只加现有规则推不出、不可再压缩的有效语义。
+**目标**：不是少写，而是保留会改变后续行为的最小语义；需要精确的地方要精确，模型自己能做好的地方不要写成规则。过度删除同样有害：锚点缺失后，模型的推断自由可能漂向错误方向。
 
-每加一行前过三关：
+每加一行前先判断：
 
 1. **这是新事实 / 约束 / 例外，还是重复信息？** 重复或可以从上层推出的不加。
-2. **删掉后还能不能由上层规则推出？** 能就不加。
+2. **删掉后还能不能由上层规则或模型常识推出？** 能就合并、精简或删除。
 3. **复杂度是真的降了，还是转移了？** 移给用户 / 默认行为 / 隐藏依赖都不算降。
+4. **这句话是在增加可执行的辨别力，还是只是在增加字数 / 姿态？** 删掉后是变自由，还是变含混？含混了就保留或换更紧凑的锚点。
 
-## 具体反对
+## 分类标准
 
-- **流水账式经验仓库**：每次任务后追加一条 lesson 的滚动文件，必膨胀。允许编辑维护式经验本，但写前先查旧条目；合并 / 改写 / 删除优先于追加；只写会改变后续行为的约束；用绝对日期；定期整理。
-- **针对假想需求的 corner case**：未真实出现的场景不预防性写入。
-- **冗余示例**：同一原则只配一个最典型示例。
-- **过详尽 fail-safe**：模型能自处理的不写规则。
-- **无效代码解读**：不重述文档已有内容或代码已表达的结构事实；只补 WHY、约束或非显然边界。
+- **KEEP / 精化**：本地路径、命令、协议标记、数据结构或模板锚点、能区分两种行为的示例（非重复、非装饰性）、安全边界、权限和不可逆操作边界、用户明确要求、反复失败后的针对性修复、模型无法推断的领域事实。
+- **合并 / 精简 / 删除**：通用最佳实践、动机性说明、重复示例、角色标签、模型显然能处理的流程旁白、推测性 corner case、过详尽 fail-safe、代码本身已表达的说明。
 
-## 例外（加无妨）
+## 编辑姿态
 
-会丢失的事实（路径 / 兼容性 / 安全边界）；反复失败后的针对性修复；用户明确要求。
-
-## 主动修剪
-
-准备往 instruction 文档加内容时，先扫一遍已有条目是否有可合并/删除的。有的话，在本次编辑里顺手处理，使净行数不增加。不要为修剪单独开一轮——等到有其他编辑需求时顺手做。
+- 优先合并 / 改写 / 删除旧条目，再追加新条目；有其他编辑需求时顺手修剪，不为修剪单独开一轮。
+- 经验记录只写会改变后续行为的约束；避免流水账式 lesson 仓库，已有条目先合并或替换。
+- 用户明确要求丰富探索 / 想象空间时，可以保留启发性内容；但要把运行协议、必做项和可选思路分清。
 
 ## 范围
 
-只管上下文文档（skill / AGENTS.md / CLAUDE.md / 系统提示 / agent memory 等）。测试覆盖、错误处理、依赖管理是别的 skill 的事，本 skill 不吞。
+只管上下文文档（skill / AGENTS.md / CLAUDE.md / 系统提示 / agent memory 等）。测试覆盖、错误处理、依赖管理是别的 skill 的事。
